@@ -53,7 +53,7 @@ body {
         #downloadBtn:hover {
             background-color: #218838;
         }
-        footer {
+        .footer {
             background-color: #343a40;
             color: white;
             text-align: center;
