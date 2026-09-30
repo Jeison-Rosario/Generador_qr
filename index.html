@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generador de códigos QR en línea. Ingresa un texto o URL y genera tu código QR de manera rápida, sencilla y gratuita. Sin cuentas ni pagos. Descarga tu código QR en formato PNG y compártelo fácilmente.">
+    <title>Generador de QR gratuito</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Generador de QR</h2>
+    <p>Para generar un código QR, simplemente escribe un texto o URL en el campo de abajo y haz clic en "Generar QR".</p>
+    <input type="text" id="textInput" placeholder="Escribe un texto o URL...">
+    <br>
+    <button onclick="generarQR()">Generar QR</button>
+    
+    <div id="qrcode"></div>
+    
+    <a id="downloadBtn" download="codigo-qr.png"><button style="background:transparent; color:white; border:none; padding:0; width:100%; height:100%;">Descargar QR</button></a>
+</div>
+
+<script>
+    let qrcodeObj = null;
+
+    function generarQR() {
+        const texto = document.getElementById("textInput").value;
+        const contenedor = document.getElementById("qrcode");
+        const btnDescargar = document.getElementById("downloadBtn");
+
+        contenedor.innerHTML = "";
+
+        if (texto.trim() === "") {
+            alert("Por favor, escribe un texto o enlace.");
+            btnDescargar.style.display = "none";
+            return;
+        }
+
+        qrcodeObj = new QRCode(contenedor, {
+            text: texto,
+            width: 200,
+            height: 200,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        setTimeout(() => {
+            const img = contenedor.querySelector("img") || contenedor.querySelector("canvas");
+            let imageUrl = "";
+
+            if (img.tagName === "CANVAS") {
+                imageUrl = img.toDataURL("image/png");
+            } else {
+                imageUrl = img.src;
+            }
+
+            btnDescargar.href = imageUrl;
+            btnDescargar.style.display = "inline-block";
+        }, 300);
+    }
+</script>
+</body>
+</html>
